@@ -1,290 +1,244 @@
-# BbangEditor
+# bbang-react-editor
 
-> 一款高性能、块级的现代文档编辑器。
-> 结合 Markdown 的轻量输入方式与 Notion 式块编辑体验，面向长文档、结构化内容和桌面端写作场景。
+<p align="center">
+  <strong>可配置的 React 块级文档编辑器</strong><br/>
+  像写 Markdown 一样快，像用 Notion 一样自由。
+</p>
 
-## 项目简介
+<p align="center">
+  <a href="https://www.npmjs.com/package/bbang-react-editor">
+    <img src="https://img.shields.io/npm/v/bbang-react-editor?style=flat-square" alt="npm version"/>
+  </a>
+  <a href="https://www.npmjs.com/package/bbang-react-editor">
+    <img src="https://img.shields.io/npm/dm/bbang-react-editor?style=flat-square" alt="npm downloads"/>
+  </a>
+  <a href="https://github.com/JiuYoStar/editor-demo">
+    <img src="https://img.shields.io/github/stars/JiuYoStar/editor-demo?style=flat-square" alt="GitHub stars"/>
+  </a>
+</p>
 
-BbangEditor 是一个从零构建的 Block-Based 文档编辑器。它不依赖浏览器原生 `contenteditable`，而是通过自研数据模型、事务系统、渲染引擎和输入接管机制，完整控制文档编辑、光标选区、块级操作与渲染更新。
+---
+
+## 简介
+
+**bbang-react-editor**（BbangEditor）是一款为 React 应用设计的可配置块级文档编辑器。它把 Markdown 的轻量输入体验与 Notion 式的块级编辑体验结合在一起，让你既能用 `#`、`-`、`[]` 等快捷语法快速写作，也能通过拖拽、命令菜单、工具栏直观组织内容。
+
+> npm 定位：*configurable React block editor with Markdown import/export*
 
 它适合用于：
 
 - 技术文档、产品文档、项目说明书的结构化编辑
 - Markdown 写作与可视化块编辑结合的场景
-- 需要表格、代码块、日历、目录大纲等复杂内容块的桌面文档工具
-- 对长文档性能、撤销重做一致性、跨平台渲染稳定性要求较高的编辑器项目
+- 需要表格、代码块、日历、目录大纲等复杂内容块的文档工具
+- 对长文档性能、撤销/重做一致性、跨平台渲染稳定性要求较高的编辑器项目
+
+---
+
+## 效果预览
+
+### 基础块与 Markdown 快捷输入
+
+支持标题 1-6 级、段落、无序/有序列表、待办事项、引用、分割线、图片、行内格式等，全部可用 Markdown 语法触发。
+
+![基础块编辑预览](./demo1.png)
+
+### 表格与日历块
+
+内置专业表格块（行列操作、合并单元格、列宽调整、虚拟化）和日历块（事件创建、拖拽、分组、节假日），满足项目排期与数据展示需求。
+
+![表格与日历块预览](./demo2.png)
+
+---
 
 ## 核心特性
 
-### 块级编辑体验
+### 🧱 块级编辑体验
 
-BbangEditor 以“块”为基本编辑单元，支持段落、标题、列表、引用、分割线、待办事项、折叠块、提示块等常见内容结构。用户可以像写 Markdown 一样快速输入，也可以像使用 Notion 一样组织页面结构。
+以“块”为基本编辑单元，支持段落、标题、列表、引用、分割线、待办事项、折叠块、提示块、代码块、表格块、日历块等。可以像写 Markdown 一样快速输入，也可以像使用 Notion 一样组织页面结构。
 
-### 专业内容块
+### ⚡ 高性能长文档
 
-编辑器内置代码块、表格块、日历块等增强能力。代码块基于 CodeMirror 6，支持语法高亮与主题切换；表格支持行列操作、单元格编辑和大表格虚拟化；日历块适合管理项目计划、排期和事件内容。
+采用块树模型、事务化操作、增量渲染和虚拟滚动方案，减少不必要的 DOM 更新。面对较长文档时，编辑器只渲染当前可见区域，保持打开、输入和滚动的流畅性。
 
-### 高性能长文档
+### 🛠 稳定的编辑内核
 
-BbangEditor 采用块树模型、事务化操作、增量渲染和虚拟滚动方案，减少不必要的 DOM 更新。面对较长文档时，编辑器可以只渲染当前可见区域，保持打开、输入和滚动的流畅性。
+不依赖浏览器原生 `contenteditable`，完全自研数据模型、渲染引擎和输入接管机制。所有编辑行为都被转换为明确的 Operation 和 Transaction，保证撤销/重做、格式化、块移动、删除等行为清晰可控。
 
-### 稳定的编辑内核
+### 📥 Markdown 导入 / 导出
 
-所有编辑行为都会被转换为明确的 Operation 和 Transaction。这样可以保证输入、格式化、块移动、删除、撤销、重做等行为都有清晰的数据来源，也便于后续扩展协作编辑、历史追踪和插件能力。
+支持从 Markdown 快速导入内容，也支持将文档结构导出为 Markdown，方便与现有文档工作流集成。
 
-## 功能 Checklist
+### 🎯 丰富的块类型
 
-### 已完成能力
+- **基础块**：Paragraph、Heading 1-6、Bullet List、Number List、Todo List、Quote、Divider、Callout、Toggle
+- **专业块**：Code（基于 CodeMirror 6）、Table（支持合并单元格与虚拟化）、Calendar（事件与分组）
+- **行内格式**：加粗、斜体、下划线、删除线、行内代码、文本颜色、链接、`@mention`
 
-#### 基础编辑
+### 🖱 直观的交互方式
 
-- [x] 文字输入
-- [x] IME 中文输入法支持
+- Markdown 快捷输入：`#`、`-`、`1.`、`[]`、`>`、`---` 等
+- Slash Command 命令菜单：输入 `/` 快速插入块
+- 块拖拽手柄：跨层级拖拽排序
+- 浮动选区工具栏：选中文字即可加粗、斜体、改色
+- 右侧目录大纲：点击跳转，当前段落高亮
+
+---
+
+## 安装
+
+```bash
+npm install bbang-react-editor
+# 或
+yarn add bbang-react-editor
+# 或
+pnpm add bbang-react-editor
+```
+
+### 依赖
+
+bbang-react-editor 的 peerDependencies 要求：
+
+```json
+{
+  "react": "^18.0.0 || ^19.0.0",
+  "react-dom": "^18.0.0 || ^19.0.0"
+}
+```
+
+---
+
+## 快速开始
+
+```tsx
+import React, { useRef } from 'react';
+import { Editor } from 'bbang-react-editor';
+import 'bbang-react-editor/style.css';
+
+function App() {
+  const editorRef = useRef(null);
+
+  const handleSave = () => {
+    const document = editorRef.current?.getDocument();
+    console.log('保存文档', document);
+  };
+
+  return (
+    <Editor
+      ref={editorRef}
+      defaultValue="# 欢迎使用 bbang-react-editor\n\n开始你的块级写作吧。"
+      placeholder="输入 / 查看命令，输入 Markdown 快捷语法开始写作..."
+      onSave={handleSave}
+    />
+  );
+}
+
+export default App;
+```
+
+### 获取文档数据
+
+通过 `forwardRef` 暴露的 `getDocument` 方法读取当前文档：
+
+```tsx
+const document = editorRef.current?.getDocument();
+```
+
+### 导入 Markdown
+
+```tsx
+<Editor
+  ref={editorRef}
+  defaultValue={markdownString}
+/>
+```
+
+---
+
+## 已支持能力
+
+### 基础编辑
+
+- [x] 文字输入与 IME 中文输入法
 - [x] 删除、光标移动、选区移动
 - [x] 复制、剪切、粘贴
 - [x] Markdown 粘贴解析
-- [x] 富文本粘贴，支持从 Notion、Word、网页保留格式
-- [x] 撤销 / 重做
-- [x] Undo / Redo 快捷键
-- [x] Cmd / Ctrl + S 保存
-- [x] Cmd / Ctrl + A 逐级全选
+- [x] 富文本粘贴（保留 Notion、Word、网页格式）
+- [x] 撤销 / 重做（含快捷键）
+- [x] Cmd/Ctrl + S 保存、Cmd/Ctrl + A 逐级全选
 - [x] 查找替换
-- [x] Selection Toolbar 浮动格式工具栏
-- [x] 加粗、斜体、下划线、删除线、行内代码、颜色等格式化能力
+- [x] 浮动 Selection Toolbar
+- [x] 加粗、斜体、下划线、删除线、行内代码、文本颜色
 
-#### 块类型
+### 块类型
 
-- [x] Paragraph 段落
-- [x] Heading 标题 1-6 级
-- [x] Bullet List 无序列表
-- [x] Number List 有序列表
-- [x] Todo List 待办列表
-- [x] Quote 引用块
-- [x] Code 代码块
-- [x] Divider 分割线
-- [x] Callout 提示块
-- [x] Toggle 折叠块
-- [x] Table 表格块
-- [x] Calendar 日历块
+- [x] Paragraph、Heading 1-6
+- [x] Bullet List、Number List、Todo List
+- [x] Quote、Divider、Callout、Toggle
+- [x] Code（CodeMirror 6 语法高亮）
+- [x] Table（行列操作、合并拆分单元格、列宽调整、Tab 导航、虚拟化）
+- [x] Calendar（月视图、事件增删改、拖拽创建、分组筛选、节假日）
 - [x] `@mention` 渲染
 
-#### Markdown 快捷输入
+### Markdown 快捷输入
 
-- [x] `#` 到 `######` 转标题
+- [x] `#` ~ `######` 转标题
 - [x] `-` / `*` 转无序列表
 - [x] `1.` 转有序列表
 - [x] `[]` / `[x]` 转 Todo 列表
-- [x] `>` 转引用
-- [x] `---` 转分割线
-- [x] `>>>` 转折叠标题
-- [x] 代码块快捷输入
-- [x] 行内粗体、斜体、删除线、代码、链接解析
+- [x] `>` 转引用，`---` 转分割线，`>>>` 转折叠标题
+- [x] 代码块、行内粗体/斜体/删除线/代码/链接解析
 
-#### 块级交互
+### 块级交互
 
-- [x] Enter 智能分裂块
-- [x] Backspace / Delete 智能合并块
-- [x] 列表缩进 / 反缩进
-- [x] Todo 勾选
-- [x] 列表回车智能插入
-- [x] 嵌套列表深度合并
-- [x] Slash Command 命令菜单
-- [x] Slash Menu 搜索过滤
-- [x] Slash Menu 键盘导航
-- [x] Block 拖拽手柄 UI
-- [x] Block 跨层级拖拽排序
-- [x] 拖拽占位线动画
-- [x] 右侧目录大纲
-- [x] 目录点击跳转与当前段落高亮
+- [x] Enter 智能分裂块、Backspace/Delete 智能合并块
+- [x] 列表缩进/反缩进、嵌套列表深度合并
+- [x] Slash Command 命令菜单与键盘导航
+- [x] 块拖拽手柄与跨层级拖拽排序
+- [x] 右侧目录大纲、点击跳转与当前段落高亮
 
-#### 表格能力
-
-- [x] Table 数据模型
-- [x] Table 基础渲染
-- [x] Table 单元格编辑
-- [x] 添加 / 删除行
-- [x] 添加 / 删除列
-- [x] 列宽拖拽调整
-- [x] 表头行样式
-- [x] 合并 / 拆分单元格
-- [x] Tab 键导航
-- [x] 表格工具栏
-- [x] 行 / 列操作栏
-- [x] 表格拖拽多选
-- [x] 表格单元格对齐
-- [x] 大表格行虚拟化
-
-#### 日历能力
-
-- [x] Calendar Block 数据模型
-- [x] Calendar 月视图渲染
-- [x] Calendar 事件创建、编辑、删除
-- [x] Calendar 月份 / 年份导航
-- [x] Calendar 分组筛选
-- [x] Calendar 拖拽创建事件
-- [x] Calendar 节假日数据集成
-- [x] Calendar 多月份纵向滚动
-- [x] Calendar 按负责人动态分组
-
-#### 桌面端与文件能力
-
-- [x] Electron 桌面客户端
-- [x] 本地文件保存
-- [x] 拖拽文件导入
-- [x] Editor `forwardRef` 暴露 `getDocument`
-- [x] 临时数据持久化方案
-- [x] Electron 生产包安全加固
-- [x] 工具栏图标化
-
-#### 性能与体验优化
+### 性能与体验
 
 - [x] Piece Table 文本存储
 - [x] BlockTree 块树模型
 - [x] Transaction 历史栈
-- [x] 增量渲染算法
-- [x] 布局计算
-- [x] 虚拟滚动
-- [x] 光标管理
-- [x] 自定义选区渲染
-- [x] 大文档性能测试
-- [x] IME 输入滚动偏移修复
-- [x] 操作栏垂直对齐优化
-- [x] 空块光标定位修复
-- [x] 行内代码跨行背景修复
-- [x] 系统字体栈优化
+- [x] 增量渲染与虚拟滚动
+- [x] 自定义光标与选区渲染
+- [x] 大文档性能测试与 IME 滚动优化
 
-#### 工程重构
+---
 
-- [x] Editor 主组件拆分为多个专用 Hook
-- [x] CommandDispatcher 拆分为路由薄壳和 handler 文件
-- [x] CursorCoordinator 拆分为单职责子模块
-- [x] 类型化 CustomEvent 事件流
-- [x] 项目术语表与函数命名规范
+## 技术架构
 
-### 进行中
+采用清晰的分层架构：
 
-- [ ] 当前无进行中任务
+```
+kernel ← engine ← editor ← app
+```
 
-### 近期规划
+- **Kernel**：数据模型、Piece Table、BlockTree、Transaction
+- **Engine**：渲染、输入处理、光标管理、选区系统
+- **Editor**：React 组件封装、命令分发、UI 层
+- **App**：具体应用场景（桌面端、Web 应用等）
 
-- [ ] 桌面端自动更新，接入 GitHub Releases
-- [ ] 启动时检查新版本
-- [ ] 新版本提示下载
-- [ ] 签名与发布链路稳定后支持自动安装更新
-- [ ] 应用内问题反馈入口
-- [ ] 应用内提交 GitHub Issue
-- [ ] Issue 自动附带客户端版本、平台和系统信息
+---
 
-### 待实现能力
+## 桌面端应用
 
-#### P0 核心编辑体验
-
-- [ ] Block hover 操作栏增强
-- [ ] `+` 按钮创建块菜单
-- [ ] Block 拖拽排序回归验证
-- [ ] Block 右键菜单
-- [ ] Block 复制、删除、转换类型 UI
-- [ ] 多块选择 UI
-- [ ] 多块批量删除
-- [ ] 多块批量格式化
-- [ ] 整体样式打磨
-- [ ] 预览模式滚动异常修复
-
-#### P1 重要增强
-
-- [ ] 纯文本粘贴快捷键
-- [ ] 选区工具栏增强
-- [ ] 块类型切换按钮
-- [ ] 链接编辑气泡
-- [ ] 链接预览气泡
-- [ ] 输入 URL 自动转链接
-
-#### P2 富媒体块
-
-- [ ] Image Block 数据模型
-- [ ] Image 渲染器
-- [ ] Image 本地上传
-- [ ] Image 拖拽上传
-- [ ] Image 截图粘贴上传
-- [ ] Image 尺寸调整
-- [ ] Image 对齐方式
-- [ ] Image Caption 编辑
-- [ ] 媒体块统一占位和加载态
-- [ ] Bookmark 链接预览块
-- [ ] Video Embed
-- [ ] 通用 Embed
-- [ ] File 附件块
-- [ ] KaTeX 数学公式块
-- [ ] 行内数学公式
-- [ ] Mermaid 图表块
-
-#### P2 高级布局
-
-- [ ] Column Layout 数据模型
-- [ ] Column 渲染器
-- [ ] 2-5 栏布局
-- [ ] Column 宽度拖拽调整
-- [ ] Column 添加 / 删除栏
-
-#### P2 导航与导出
-
-- [ ] 独立 TOC 目录块
-- [ ] 面包屑导航
-- [ ] 导出 Markdown
-- [ ] 导出 HTML
-- [ ] 导出 PDF
-- [ ] 导入 Markdown
-- [ ] 导入 Notion 导出文件
-
-#### P3 页面系统与后端
-
-- [ ] 后端服务
-- [ ] RESTful API
-- [ ] 自动保存
-- [ ] 多页面支持
-- [ ] 左侧页面树
-- [ ] 页面树拖拽排序
-- [ ] 页面嵌套
-- [ ] Page Link 块
-- [ ] 页面内链接与 `@mention`
-- [ ] 页面图标与 Cover
-- [ ] 页面搜索
-- [ ] 版本历史
-- [ ] 版本对比与回滚
-- [ ] 回收站
-- [ ] 模板系统
-
-#### P3 用户系统与协作
-
-- [ ] 用户系统
-- [ ] JWT Token 鉴权
-- [ ] 权限控制
-- [ ] 分享链接
-- [ ] 实时协作基础
-- [ ] OT / CRDT 冲突解决
-- [ ] 协作光标显示
-- [ ] 协作编辑同步
-- [ ] 评论系统
-- [ ] 评论通知
-
-## 技术亮点
-
-- 不使用浏览器原生 `contenteditable`，避免不可控 DOM 编辑行为
-- 使用块树管理文档结构，适合复杂嵌套内容
-- 使用 Piece Table 管理文本内容，降低频繁编辑成本
-- 使用 Transaction 统一表达编辑行为，天然支持撤销重做
-- 使用自定义渲染器和 Web Components 输出界面
-- 使用虚拟光标和自定义选区，保证编辑体验一致
-- 采用 `kernel ← engine ← editor ← app` 的单向分层架构
-
-## 下载与体验
-
-公开演示与下载页面：
+BbangEditor 同时提供基于 Electron 的桌面客户端，支持本地文件保存、拖拽文件导入和工具栏图标化。
 
 - GitHub 仓库：[JiuYoStar/editor-demo](https://github.com/JiuYoStar/editor-demo)
+- 问题反馈：[Issues](https://github.com/JiuYoStar/editor-demo/issues)
 
 > macOS 首次打开未签名应用时，可能需要在“系统设置 → 隐私与安全性”中手动允许打开。
 
-## 总结
+---
 
-BbangEditor 是一个面向现代文档场景的自研块级编辑器：上层提供接近 Notion 的使用体验，底层通过事务化数据模型和自研渲染引擎保证性能、稳定性与可扩展性。
+## 许可证
+
+[SEE LICENSE IN LICENSE](./LICENSE)
+
+---
+
+<p align="center">
+  由 <a href="https://github.com/JiuYoStar">JiuYoStar</a> 构建 · 欢迎 Star 与 PR
+</p>
